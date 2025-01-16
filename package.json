@@ -1,5 +1,5 @@
 {
-  "name": "@omnedia/ngx-vortext",
+  "name": "@omnedia/ngx-vortex",
   "description": "A simple component library to create a container with an animated vortex background.",
   "version": "1.0.0",
   "peerDependencies": {
