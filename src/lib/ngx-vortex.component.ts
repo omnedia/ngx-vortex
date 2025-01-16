@@ -87,6 +87,8 @@ export class NgxVortexComponent implements OnInit, AfterViewInit, OnDestroy {
     delay: string;
   }[] = [];
 
+  private previousWaveAmount: number | null = null;
+
   private intersectionObserver?: IntersectionObserver;
   isInView = false;
 
@@ -120,6 +122,12 @@ export class NgxVortexComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateWaveData(amount: number): void {
+    if (amount === this.previousWaveAmount) {
+      return;
+    }
+
+    this.previousWaveAmount = amount;
+
     this.waveData = Array.from({ length: amount }, (_, i) => ({
       index: i + 1,
       delay: `calc(-1 * var(--om-vortext-animation-duration) / ${amount} * ${i} * 0.5)`,
