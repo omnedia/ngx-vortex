@@ -1,0 +1,33 @@
+<div class="om-vortex" [ngClass]="styleClass" [ngStyle]="style">
+  <div class="om-vortex-background" #OmVortextBackground>
+    <svg
+      class="vortex-svg"
+      [class.animate]="isInView"
+      xmlns="http://www.w3.org/2000/svg"
+      [attr.viewBox]="'0 0 2000 1200'"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <defs>
+        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" [attr.stop-color]="gradient1Colors[0]" />
+          <stop offset="100%" [attr.stop-color]="gradient1Colors[1]" />
+        </linearGradient>
+        <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" [attr.stop-color]="gradient2Colors[0]" />
+          <stop offset="100%" [attr.stop-color]="gradient2Colors[1]" />
+        </linearGradient>
+      </defs>
+
+      <ng-container *ngFor="let wave of waveData">
+        <path
+          class="wave"
+          [class]="'wave' + wave.index"
+          [attr.d]="getWavePath(wave.index)"
+          [attr.stroke]="wave.index % 2 === 0 ? 'url(#gradient2)' : 'url(#gradient1)'"
+          [style.animationDelay]="wave.delay"
+        />
+      </ng-container>
+    </svg>
+  </div>
+  <ng-content></ng-content>
+</div>

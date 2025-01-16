@@ -1,0 +1,79 @@
+.om-vortex {
+  --om-vortext-animation-duration: 8s;
+  --om-vortext-blur: 3px;
+  --om-vortext-stroke-width: 8px;
+
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
+  .om-vortex-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    filter: blur(var(--om-vortext-blur));
+
+    .vortex-svg {
+      width: 110%;
+      height: 100%;
+      opacity: 0.9;
+      margin-left: -5%;
+      animation: om-vortext-wiggle
+        calc(var(--om-vortext-animation-duration) * 2) infinite ease-in-out;
+
+      .wave {
+        fill: none;
+        stroke-width: var(--om-vortext-stroke-width);
+        filter: blur(5px);
+        opacity: 0.6;
+        transform-origin: 50% 50%;
+      }
+
+      &.animate {
+        animation: om-vortext-wiggle
+          calc(var(--om-vortext-animation-duration) * 2) infinite ease-in-out;
+
+        .wave {
+          animation: om-vortext-spin-around var(--om-vortext-animation-duration)
+            infinite linear;
+        }
+      }
+    }
+  }
+}
+
+@keyframes om-vortext-spin-around {
+  0% {
+    transform: rotateX(0deg) translateY(0) scale(1);
+  }
+  25% {
+    transform: rotateX(90deg) translateY(-2%) scale(0.97);
+  }
+  50% {
+    transform: rotateX(180deg) translateY(0) scale(1);
+  }
+  75% {
+    transform: rotateX(270deg) translateY(2%) scale(1.03);
+  }
+  100% {
+    transform: rotateX(360deg) translateY(0) scale(1);
+  }
+}
+
+@keyframes om-vortext-wiggle {
+  0% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+  100% {
+    transform: rotate(-4deg);
+  }
+}
