@@ -1,5 +1,5 @@
 <div class="om-vortex" [ngClass]="styleClass" [ngStyle]="style">
-  <div class="om-vortex-background" #OmVortextBackground>
+  <div class="om-vortex-background" #OmVortexBackground>
     <svg
       class="vortex-svg"
       [class.animate]="isInView"
@@ -9,12 +9,12 @@
     >
       <defs>
         <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" [attr.stop-color]="gradient1Colors[0]" />
-          <stop offset="100%" [attr.stop-color]="gradient1Colors[1]" />
+          <stop offset="0%" [attr.stop-color]="gradient1Colors[0]"/>
+          <stop offset="100%" [attr.stop-color]="gradient1Colors[1]"/>
         </linearGradient>
         <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" [attr.stop-color]="gradient2Colors[0]" />
-          <stop offset="100%" [attr.stop-color]="gradient2Colors[1]" />
+          <stop offset="0%" [attr.stop-color]="gradient2Colors[0]"/>
+          <stop offset="100%" [attr.stop-color]="gradient2Colors[1]"/>
         </linearGradient>
       </defs>
 
