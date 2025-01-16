@@ -10,7 +10,7 @@ import {
   PLATFORM_ID,
   ViewChild,
 } from "@angular/core";
-import { CommonModule, isPlatformBrowser } from "@angular/common";
+import {CommonModule, isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: "om-vortex",
@@ -20,7 +20,7 @@ import { CommonModule, isPlatformBrowser } from "@angular/common";
   styleUrl: "./ngx-vortex.component.scss",
 })
 export class NgxVortexComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild("OmVortextBackground", { static: true })
+  @ViewChild("OmVortexBackground", {static: true})
   container!: ElementRef<HTMLDivElement>;
 
   @Input()
@@ -95,7 +95,8 @@ export class NgxVortexComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
     private readonly cdr: ChangeDetectorRef,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     if (this.waveData.length <= 0) {
@@ -128,7 +129,7 @@ export class NgxVortexComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.previousWaveAmount = amount;
 
-    this.waveData = Array.from({ length: amount }, (_, i) => ({
+    this.waveData = Array.from({length: amount}, (_, i) => ({
       index: i + 1,
       delay: `calc(-1 * var(--om-vortext-animation-duration) / ${amount} * ${i} * 0.5)`,
     }));
