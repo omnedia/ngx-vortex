@@ -75,6 +75,10 @@ export class NgxVortexComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input()
   set waveAmount(amount: number) {
+    if (amount <= 0) {
+      throw new Error("Wave amount must be greater than 0.");
+    }
+
     this.updateWaveData(amount);
   }
 
