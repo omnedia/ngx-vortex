@@ -1,6 +1,6 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Inject,
@@ -8,6 +8,7 @@ import {
   OnDestroy,
   OnInit,
   PLATFORM_ID,
+  signal,
   ViewChild,
 } from "@angular/core";
 import {CommonModule, isPlatformBrowser} from "@angular/common";
@@ -18,6 +19,7 @@ import {CommonModule, isPlatformBrowser} from "@angular/common";
   imports: [CommonModule],
   templateUrl: "./ngx-vortex.component.html",
   styleUrl: "./ngx-vortex.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgxVortexComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("OmVortexBackground", {static: true})
@@ -25,17 +27,17 @@ export class NgxVortexComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input()
   set animationDuration(duration: string) {
-    this.style["--om-vortext-animation-duration"] = duration;
+    this.inlineStyle.update(prev => ({...prev, '--om-vortext-animation-duration': duration}));
   }
 
   @Input()
   set vortexBlur(blur: string) {
-    this.style["--om-vortext-blur"] = blur;
+    this.inlineStyle.update(prev => ({...prev, '--om-vortext-blur': blur}));
   }
 
   @Input()
   set strokeWidth(width: string) {
-    this.style["--om-vortext-stroke-width"] = width;
+    this.inlineStyle.update(prev => ({...prev, '--om-vortext-stroke-width': width}));
   }
 
   @Input()
@@ -48,7 +50,7 @@ export class NgxVortexComponent implements OnInit, AfterViewInit, OnDestroy {
       colors.push(colors[0]);
     }
 
-    this.gradient1Colors = colors;
+    this.gradient1Colors.set(colors);
   }
 
   @Input()
@@ -61,17 +63,21 @@ export class NgxVortexComponent implements OnInit, AfterViewInit, OnDestroy {
       colors.push(colors[0]);
     }
 
-    this.gradient2Colors = colors;
+    this.gradient2Colors.set(colors);
   }
 
-  gradient1Colors: string[] = ["#8533ff", "#9600fa"];
-  gradient2Colors: string[] = ["#0048a6", "#8533ff"];
+  gradient1Colors = signal(["#8533ff", "#9600fa"]);
+  gradient2Colors = signal(["#0048a6", "#8533ff"]);
 
   @Input()
   styleClass: string | undefined;
 
-  @Input()
-  style: any = {};
+  @Input("style")
+  set style(style: any) {
+    this.inlineStyle.update(prev => ({...prev, ...style}));
+  }
+
+  inlineStyle = signal({});
 
   @Input()
   set waveAmount(amount: number) {
@@ -90,11 +96,10 @@ export class NgxVortexComponent implements OnInit, AfterViewInit, OnDestroy {
   private previousWaveAmount: number | null = null;
 
   private intersectionObserver?: IntersectionObserver;
-  isInView = false;
+  isInView = signal(false);
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
-    private readonly cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -107,12 +112,7 @@ export class NgxVortexComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.intersectionObserver = new IntersectionObserver(([entry]) => {
-        const wasInView = this.isInView;
-        this.isInView = entry.isIntersecting;
-
-        if (wasInView !== this.isInView) {
-          this.cdr.detectChanges();
-        }
+        this.isInView.set(entry.isIntersecting);
       });
       this.intersectionObserver.observe(this.container.nativeElement);
     }
