@@ -20,6 +20,7 @@
     height: 100%;
     overflow: hidden;
     filter: blur(var(--om-vortext-blur));
+    pointer-events: none;
 
     .vortex-svg {
       width: 110%;
